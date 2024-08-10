@@ -1,0 +1,19 @@
+
+NAME:= fdf
+SRCS:= main.c
+OBJS:= $(SRCS:%.c=%.o)
+CFLAGS:= -Wall -Wextra -Werror
+
+all: $(NAME)
+
+$(NAME): $(OBJS) $(MLX_A)
+	@$(CC) $(OBJS) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
+	@echo "Linked into executable \033[0;32mfdf\033[0m."
+
+$(MLX_A):
+	@$(MAKE) -s -C $(MLX)
+	@echo "Compiled $(MLX_A)."
+
+.c.o:
+	@$(CC) -I/usr/include -Imlx_linux -O3 -c $< -o $@
+	@echo "Compiling $<."
